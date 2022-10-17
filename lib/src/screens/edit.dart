@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 
 class EditProduct extends StatefulWidget {
 
-  const EditProduct({super.key});
+  Product product = Get.arguments;
+  final _controller = Get.put(ProductController());
+
+  EditProduct({super.key});
 
   @override
   State<StatefulWidget> createState() => _State();
@@ -41,20 +44,22 @@ class _State extends State<EditProduct> {
       key: _formKey,
       child: Column(
         children: [
-          _createField('Name'),
+          _createField('Name', widget.product.name),
           const SizedBox(height: 10,),
-          _createField('Price'),
+          _createField('Price', widget.product.price),
           const SizedBox(height: 10,),
-          _createField('Weight'),
+          _createField('Weight', widget.product.price),
           const SizedBox(height: 10,),
-          _createField('Description'),
+          _createField('Description', widget.product.desc),
           const SizedBox(height: 14,),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  widget._controller.updateProduct(widget.product.id, {})
+                },
                 child: const Padding(
                   padding: EdgeInsets.all(14),
                   child: Text('Update'),
@@ -67,10 +72,11 @@ class _State extends State<EditProduct> {
     );
   }
 
-  Widget _createField(label) {
+  Widget _createField(label, value) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: TextFormField(
+        initialValue: value,
         decoration: InputDecoration(
           hintText: label,
           border: const OutlineInputBorder(

@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:my_app/src/controllers/product_controller.dart';
+import 'package:my_app/src/models/product.dart';
 
 class Details extends StatelessWidget {
 
-  const Details({super.key});
+  Product product = Get.arguments;
+  final _controller = Get.put(ProductController());
+
+  Details({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +19,7 @@ class Details extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 16),
             child: const Text(
-              'Edit Product',
+              'Product Product',
               style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w600
@@ -32,8 +37,8 @@ class Details extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'iPhone XR',
+                  Text(
+                  "${product.name}",
                   style: TextStyle(
                     fontWeight: FontWeight.w600
                   ),
@@ -54,7 +59,7 @@ class Details extends StatelessWidget {
                     Expanded(
                       child: ElevatedButton(
                         onPressed: () {
-                          Get.toNamed('/edit');
+                          Get.toNamed('/edit', arguments: product);
                         },
                         child: const Text('Edit'),
                       ),
@@ -63,9 +68,7 @@ class Details extends StatelessWidget {
                     Expanded(
                       child: ElevatedButton(
                         onPressed: () {
-                          Get.snackbar(
-                              '',
-                              'Product deleted');
+                          _controller.deleteProduct(product.id);
                         },
                         child: const Text('Delete'),
                       ),

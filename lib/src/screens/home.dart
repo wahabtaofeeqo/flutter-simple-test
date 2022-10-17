@@ -8,7 +8,7 @@ class Home extends StatelessWidget {
   final _controller = Get.put(ProductController());
 
   Home({super.key}) {
-    _controller.loadProducts();
+    _controller.loadProducts(1);
   }
 
   @override
@@ -46,7 +46,7 @@ class Home extends StatelessWidget {
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () {
-                _controller.loadProducts();
+                _controller.loadProducts(1);
               },
               child: const Padding(
                 padding: EdgeInsets.all(10),
@@ -66,7 +66,7 @@ class Home extends StatelessWidget {
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 16),
           child: const Text(
-            'There are 0 products available',
+            'There are $_controller.count products available',
             style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w600
@@ -96,7 +96,7 @@ class Home extends StatelessWidget {
                   fit: BoxFit.cover,
               ),
               const ListTile(
-                title: Text('iPhone XR'),
+                title: Text("${product.name}"),
                 subtitle: Text('Music by Julie Gable. Lyrics by Sidney Stein.'),
               ),
               Padding(
@@ -104,7 +104,7 @@ class Home extends StatelessWidget {
                 child: TextButton(
                   child: const Text('View'),
                   onPressed: () {
-                    Get.toNamed('/details');
+                    Get.toNamed('/details', arguments: product);
                   },
                 ),
               )
