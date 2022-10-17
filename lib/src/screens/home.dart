@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:my_app/src/controllers/product_controller.dart';
+import 'package:my_app/src/models/product.dart';
 
 class Home extends StatelessWidget {
 
   final _controller = Get.put(ProductController());
 
-  Home({super.key});
+  Home({super.key}) {
+    _controller.loadProducts();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,16 +34,25 @@ class Home extends StatelessWidget {
 
   Widget _reloadComponent() {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         const Icon(Icons.not_accessible),
         const SizedBox(height: 10,),
         const Text('Oops! We are unable to load Data. Please try again'),
         const SizedBox(height: 10,),
-        SizedBox(
-          width: double.infinity,
-          child: ElevatedButton(
-            onPressed: () {},
-            child: const Text('Reload'),
+        Padding(
+          padding: const EdgeInsets.all(10),
+          child: SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              onPressed: () {
+                _controller.loadProducts();
+              },
+              child: const Padding(
+                padding: EdgeInsets.all(10),
+                child: Text('Reload'),
+              ),
+            ),
           ),
         )
       ],
@@ -64,14 +76,14 @@ class Home extends StatelessWidget {
         Expanded(
             child: ListView.builder(
               itemCount: _controller.products.length,
-              itemBuilder: (context, index) => _productCard()
+              itemBuilder: (context, index) => _productCard(_controller.products[index])
             )
         )
       ],
     );
   }
 
-  Widget _productCard() {
+  Widget _productCard(Product product) {
       return Card(
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -84,7 +96,7 @@ class Home extends StatelessWidget {
                   fit: BoxFit.cover,
               ),
               const ListTile(
-                title: Text('The Enchanted Nightingale'),
+                title: Text('iPhone XR'),
                 subtitle: Text('Music by Julie Gable. Lyrics by Sidney Stein.'),
               ),
               Padding(
